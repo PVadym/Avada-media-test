@@ -9,4 +9,6 @@ public interface ImageService {
     String uploadToLocalFileSystem(MultipartFile file);
 
     byte[] getImageWithMediaType(String imageName) throws IOException;
+
+    boolean deleteImage(String imageName);
 }

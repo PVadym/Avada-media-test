@@ -6,6 +6,7 @@ import com.example.kino.entity.film.SEOInfo;
 import com.example.kino.entity.news.News;
 import com.example.kino.exeption.ResourceNotFoundException;
 import com.example.kino.repo.NewsRepository;
+import com.example.kino.service.api.ImageService;
 import com.example.kino.service.api.NewsService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,6 +26,7 @@ public class NewsServiceImpl implements NewsService {
 
     private final NewsRepository newsRepository;
     private final ModelMapper modelMapper;
+    private final ImageService imageService;
 
 
     @Override
@@ -89,6 +91,14 @@ public class NewsServiceImpl implements NewsService {
         News newsToUpdate = newsRepository.findById(id)
                 .orElseThrow(() ->
                         new ResourceNotFoundException("News doesn't exists"));
+        deleteImage(newsToUpdate.getMainImage());
+        newsToUpdate.getImages().forEach(this::deleteImage);
         newsRepository.delete(newsToUpdate);
+    }
+
+    private void deleteImage(String image) {
+        if (image!=null){
+            imageService.deleteImage(image);
+        }
     }
 }

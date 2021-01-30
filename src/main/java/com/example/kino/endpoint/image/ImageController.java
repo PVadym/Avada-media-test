@@ -18,7 +18,7 @@ public class ImageController {
 
     @PostMapping(value ="upload")
     public ResponseEntity<?> uploadImage(@RequestParam MultipartFile file){
-        return imageService.uploadToLocalFileSystem(file);
+        return ResponseEntity.ok(imageService.uploadToLocalFileSystem(file));
     }
     @GetMapping(
             value = "getImage/{imageName:.+}",

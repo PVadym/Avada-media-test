@@ -1,7 +1,6 @@
 package com.example.kino.entity;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 

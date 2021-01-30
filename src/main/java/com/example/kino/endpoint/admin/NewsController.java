@@ -20,7 +20,6 @@ public class NewsController {
 
     private final NewsService newsService;
 
-
     @PostMapping("/create")
     public ResponseEntity<NewsDto> createNews(@RequestBody NewsDto request) {
         return ResponseEntity.ok(newsService.createNews(request));

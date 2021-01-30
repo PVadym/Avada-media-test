@@ -22,17 +22,17 @@ import java.util.UUID;
 @Service
 public class ImageServiceImpl implements ImageService {
 
-    @Value("${documentContent.uploadBase}")
+    @Value("${imageContent.uploadBase}")
     private String uploadBase;
-    @Value("${documentContent.uploadDocumentPath}")
-    private String uploadDocumentFolder;
+    @Value("${imageContent.uploadImagePath}")
+    private String uploadImageFolder;
 
     private Path storageDirectory;
 
     @PostConstruct
     public void initDirectory() {
         try {
-            Path path = Paths.get(uploadBase + uploadDocumentFolder);
+            Path path = Paths.get(uploadBase + uploadImageFolder);
             if(!Files.exists(path)){
                 this.storageDirectory = Files.createDirectories(path);
             } else {
@@ -62,5 +62,19 @@ public class ImageServiceImpl implements ImageService {
 
         return IOUtils.toByteArray(destination.toUri());
     }
+
+    @Override
+    public  boolean deleteImage(String imageName) {
+        Path destination = Paths.get(storageDirectory.toString()+"/"+imageName);
+        log.info("Image to delete = {}", destination);
+        try {
+            return Files.deleteIfExists(destination);
+        } catch (IOException e) {
+            log.warn("Can't delete image = {}", destination);
+        }
+        return false;
+    }
+
+
 
 }
