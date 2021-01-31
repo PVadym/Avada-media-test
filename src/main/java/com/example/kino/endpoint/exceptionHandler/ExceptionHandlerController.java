@@ -1,7 +1,7 @@
 package com.example.kino.endpoint.exceptionHandler;
 
+import com.example.kino.exeption.FileUploadArgumentException;
 import com.example.kino.exeption.ResourceAlreadyExistsException;
-import com.example.kino.exeption.ResourceDeleteException;
 import com.example.kino.exeption.ResourceNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -32,12 +32,11 @@ public class ExceptionHandlerController {
         return e.getMessage();
     }
 
-    @ExceptionHandler(ResourceDeleteException.class)
-    @ResponseStatus(HttpStatus.LOCKED)
-    public String lockedEntity(Exception e) {
+    @ExceptionHandler(FileUploadArgumentException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public String uploadImageError(Exception e) {
         log.error("Error: " + e.getMessage(), e);
         return e.getMessage();
     }
-
 
 }

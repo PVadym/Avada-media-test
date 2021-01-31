@@ -1,6 +1,6 @@
 package com.example.kino.endpoint.admin;
 
-import com.example.kino.config.dto.FilmDto;
+import com.example.kino.config.dto.FilmAdminDto;
 import com.example.kino.service.api.FilmService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -15,10 +15,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/film")
+@RequestMapping("/film/admin")
 @RequiredArgsConstructor
 @PreAuthorize("hasRole('ROLE_ADMIN')")
-public class FilmController {
+public class FilmAdminController {
 
     private final FilmService filmService;
 
@@ -33,7 +33,7 @@ public class FilmController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<FilmDto> createFilm(@RequestBody FilmDto request) {
+    public ResponseEntity<FilmAdminDto> createFilm(@RequestBody FilmAdminDto request) {
         return ResponseEntity.ok(filmService.createFilm(request));
     }
 
@@ -43,11 +43,21 @@ public class FilmController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<FilmDto>> getFilms(
+    public ResponseEntity<Page<FilmAdminDto>> getFilms(
             @RequestParam(value = "status", required = false) String status,
             @PageableDefault(size = 10, page = 0)
             @SortDefault(sort = "name", direction = Sort.Direction.ASC) Pageable pageable) {
-        Page<FilmDto> result = filmService.getAllFilms(status, pageable);
+        Page<FilmAdminDto> result = filmService.getAllFilms(status, pageable);
         return ResponseEntity.ok(result);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<FilmAdminDto> updateFilm(@RequestBody FilmAdminDto request){
+        return ResponseEntity.ok(filmService.updateFilm(request));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<FilmAdminDto> getFilmById(@PathVariable long id){
+        return ResponseEntity.ok(filmService.getFilmAdminById(id));
     }
 }

@@ -1,7 +1,7 @@
 package com.example.kino.config;
 
 import com.example.kino.config.dto.CreateUserRequest;
-import com.example.kino.config.dto.FilmDto;
+import com.example.kino.config.dto.FilmAdminDto;
 import com.example.kino.config.dto.UserDto;
 import com.example.kino.entity.film.Film;
 import com.example.kino.entity.user.User;
@@ -34,9 +34,9 @@ public class ModelMapperConfig {
         mapper.createTypeMap(CreateUserRequest.class, User.class)
                 .setPostConverter(MappingContext::getDestination);
 
-        mapper.createTypeMap(Film.class, FilmDto.class)
+        mapper.createTypeMap(Film.class, FilmAdminDto.class)
                 .setPostConverter(MappingContext::getDestination);
-        mapper.createTypeMap(FilmDto.class, Film.class)
+        mapper.createTypeMap(FilmAdminDto.class, Film.class)
                 .setPostConverter(MappingContext::getDestination);
 
 

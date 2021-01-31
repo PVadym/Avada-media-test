@@ -1,6 +1,7 @@
 package com.example.kino.service.impl;
 
 import com.example.kino.exeption.FileUploadArgumentException;
+import com.example.kino.exeption.ResourceNotFoundException;
 import com.example.kino.service.api.ImageService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
@@ -57,10 +58,14 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public  byte[] getImageWithMediaType(String imageName) throws IOException {
+    public  byte[] getImageWithMediaType(String imageName) {
         Path destination = Paths.get(storageDirectory.toString()+"/"+imageName);
 
-        return IOUtils.toByteArray(destination.toUri());
+        try {
+            return IOUtils.toByteArray(destination.toUri());
+        } catch (IOException e) {
+            throw  new ResourceNotFoundException("Coldn't load image = " + imageName);
+        }
     }
 
     @Override

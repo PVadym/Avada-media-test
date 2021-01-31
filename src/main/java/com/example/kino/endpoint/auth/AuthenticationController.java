@@ -1,7 +1,8 @@
-package com.example.kino.endpoint.user;
+package com.example.kino.endpoint.auth;
 
 
 import com.example.kino.config.dto.AuthenticationRequestDTO;
+import com.example.kino.config.dto.CreateUserRequest;
 import com.example.kino.config.dto.UserDto;
 import com.example.kino.config.security.JwtTokenProvider;
 import com.example.kino.service.api.UserService;
@@ -48,6 +49,11 @@ public class AuthenticationController {
         } catch (AuthenticationException e) {
             return new ResponseEntity<>("Invalid login/password combination", HttpStatus.FORBIDDEN);
         }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<UserDto> createUser(@RequestBody CreateUserRequest request) {
+        return ResponseEntity.ok(userService.createUser(request));
     }
 
 
